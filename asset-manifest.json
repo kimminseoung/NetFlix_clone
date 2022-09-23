@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.js": "/NetFlix_clone/static/js/main.90502211.js",
+    "main.js": "/NetFlix_clone/static/js/main.b0177510.js",
     "index.html": "/NetFlix_clone/index.html",
-    "main.90502211.js.map": "/NetFlix_clone/static/js/main.90502211.js.map"
+    "main.b0177510.js.map": "/NetFlix_clone/static/js/main.b0177510.js.map"
   },
   "entrypoints": [
-    "static/js/main.90502211.js"
+    "static/js/main.b0177510.js"
   ]
 }

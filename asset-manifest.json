@@ -1,0 +1,10 @@
+{
+  "files": {
+    "main.js": "/kimminseoung/NetFlix_clone/static/js/main.e7e90d8e.js",
+    "index.html": "/kimminseoung/NetFlix_clone/index.html",
+    "main.e7e90d8e.js.map": "/kimminseoung/NetFlix_clone/static/js/main.e7e90d8e.js.map"
+  },
+  "entrypoints": [
+    "static/js/main.e7e90d8e.js"
+  ]
+}

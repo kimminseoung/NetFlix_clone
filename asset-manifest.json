@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.js": "/NetFlix_clone/static/js/main.b0177510.js",
-    "index.html": "/NetFlix_clone/index.html",
-    "main.b0177510.js.map": "/NetFlix_clone/static/js/main.b0177510.js.map"
+    "main.js": "https://kimminseoung.github.io/NetFlix_clone/static/js/main.c807d374.js",
+    "index.html": "https://kimminseoung.github.io/NetFlix_clone/index.html",
+    "main.c807d374.js.map": "https://kimminseoung.github.io/NetFlix_clone/static/js/main.c807d374.js.map"
   },
   "entrypoints": [
-    "static/js/main.b0177510.js"
+    "static/js/main.c807d374.js"
   ]
 }

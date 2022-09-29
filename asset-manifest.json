@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "https://kimminseoung.github.io/NetFlix_clone/static/css/main.9bf80ff5.css",
-    "main.js": "https://kimminseoung.github.io/NetFlix_clone/static/js/main.b59e3ceb.js",
+    "main.js": "https://kimminseoung.github.io/NetFlix_clone/static/js/main.900e4f61.js",
     "index.html": "https://kimminseoung.github.io/NetFlix_clone/index.html",
     "main.9bf80ff5.css.map": "https://kimminseoung.github.io/NetFlix_clone/static/css/main.9bf80ff5.css.map",
-    "main.b59e3ceb.js.map": "https://kimminseoung.github.io/NetFlix_clone/static/js/main.b59e3ceb.js.map"
+    "main.900e4f61.js.map": "https://kimminseoung.github.io/NetFlix_clone/static/js/main.900e4f61.js.map"
   },
   "entrypoints": [
     "static/css/main.9bf80ff5.css",
-    "static/js/main.b59e3ceb.js"
+    "static/js/main.900e4f61.js"
   ]
 }

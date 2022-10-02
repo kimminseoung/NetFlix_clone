@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/NetFlix_clone/static/css/main.9bf80ff5.css",
-    "main.js": "/NetFlix_clone/static/js/main.32e83f26.js",
+    "main.js": "/NetFlix_clone/static/js/main.d7b8f25c.js",
     "index.html": "/NetFlix_clone/index.html",
     "main.9bf80ff5.css.map": "/NetFlix_clone/static/css/main.9bf80ff5.css.map",
-    "main.32e83f26.js.map": "/NetFlix_clone/static/js/main.32e83f26.js.map"
+    "main.d7b8f25c.js.map": "/NetFlix_clone/static/js/main.d7b8f25c.js.map"
   },
   "entrypoints": [
     "static/css/main.9bf80ff5.css",
-    "static/js/main.32e83f26.js"
+    "static/js/main.d7b8f25c.js"
   ]
 }

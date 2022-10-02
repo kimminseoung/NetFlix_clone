@@ -13,33 +13,38 @@ const Overlay = styled(motion.div)`
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.8);
-  z-index: 110;
+  z-index: 1110;
 `;
-const MovieDetail = styled(motion.div)`
+const Detail = styled(motion.div)`
   overflow-y: scroll;
   position: fixed;
-  padding-bottom: 100px;
-  width: 40vw;
-  height: 80vh;
-  top: 10%;
-  left: 0;
-  right: 0;
-  margin: 0 auto;
   background-color: ${props => props.theme.black.lighter};
-  border-radius: 15px;
-  z-index: 111;
+  border-radius: 1rem;
+  z-index: 1111;
   color: ${props => props.theme.white.lighter};
   .title,
   .info,
   .overview {
     padding: 10px 15px;
   }
+  width: 40vw;
+  @media ${props => props.theme.desktop} {
+    padding-bottom: 5rem;
+  }
+  @media ${props => props.theme.tablet} {
+    padding-bottom: 3rem;
+  }
+  @media ${props => props.theme.mobile} {
+    padding-bottom: 1.5rem;
+    width: 68vw;
+  }
 `;
-const MovieInfo = styled.div`
+const DetailInfo = styled.div`
   display: flex;
+  flex-direction: column;
   font-weight: bold;
   & > div {
-    margin-right: 15px;
+    margin-bottom: 5px;
   }
   b {
     font-weight: normal;
@@ -47,24 +52,30 @@ const MovieInfo = styled.div`
     font-size: 14px;
   }
 `;
-const MovieTitle = styled.div`
-  font-size: 28px;
+const Title = styled.div`
   b {
     font-size: 14px;
     display: block;
     margin-top: 5px;
   }
+  @media ${props => props.theme.desktop} {
+    font-size: 1.75rem;
+  }
+  @media ${props => props.theme.tablet} {
+    font-size: 1.375rem;
+  }
+  @media ${props => props.theme.mobile} {
+    font-size: 1rem;
+  }
 `;
-const MovieDate = styled.div``;
-const MovieGenre = styled.div``;
-const MovieRating = styled.div``;
-const MovieText = styled.div`
+const DetailText = styled.div`
   p {
     line-height: 1.3;
     font-size: 14px;
   }
 `;
-const MovieMedia = styled.div`
+const Media = styled.div`
+  padding: 13px;
   img {
     width: 100%;
     height: 100%;
@@ -73,18 +84,33 @@ const MovieMedia = styled.div`
 `;
 const Close = styled.div`
   position: absolute;
-  right: 10px;
-  top: 10px;
+  right: 0px;
+  top: 0px;
   svg {
     width: 45px;
     height: 45px;
     transition: 0.3s;
+    color: ${props => props.theme.black.darker};
   }
   svg:hover {
     color: crimson;
   }
 `;
-const MovieModal = () => {
+const showParents = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.3,
+    },
+  },
+};
+const showChild = {
+  hidden: { opacity: 0, y: "0%", x: "-50%", top: "50%", left: "50%" },
+  show: { opacity: 1, y: "-50%", x: "-50%", top: "50%", left: "50%" },
+  exit: { opacity: 0, y: "-100%", x: "-50%", top: "50%", left: "50%" },
+};
+const DetailModal = () => {
   const navigate = useNavigate();
   const onOverlayClick = () => {
     navigate(-1);
@@ -100,20 +126,20 @@ const MovieModal = () => {
       {isLoading ? (
         <Loader title='로딩중.....' />
       ) : (
-        <motion.div>
-          <Overlay onClick={onOverlayClick} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} />
-          <MovieDetail initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
+        <motion.div variants={showParents} initial='hidden' animate='show'>
+          <Overlay onClick={onOverlayClick} variants={showChild} />
+          <Detail variants={showChild}>
             <Close onClick={onOverlayClick}>
               <AiFillCloseSquare />
             </Close>
-            <MovieMedia>
+            <Media>
               {unikey ? (
                 <iframe frameBorder='0' width='100%' height='400px' title='movieTrailer' src={`https://www.youtube.com/embed/${unikey}?autoplay=1`}></iframe>
               ) : (
                 <img src={`${makeImagePath(data?.backdrop_path || data?.poster_path, "w500")}`} alt='이미지' />
               )}
-            </MovieMedia>
-            <MovieTitle className='title'>
+            </Media>
+            <Title className='title'>
               {part === "movie" ? (
                 <>
                   {data?.title}
@@ -125,9 +151,9 @@ const MovieModal = () => {
                   <b>{data?.original_name}</b>
                 </>
               )}
-            </MovieTitle>
-            <MovieInfo className='info'>
-              <MovieDate>
+            </Title>
+            <DetailInfo className='info'>
+              <div>
                 {part === "movie" ? (
                   <>
                     개봉일: <b>{data?.release_date}</b>
@@ -137,8 +163,8 @@ const MovieModal = () => {
                     방영일: <b>{data?.first_air_date}</b>
                   </>
                 )}
-              </MovieDate>
-              <MovieRating>
+              </div>
+              <div>
                 평점:
                 <b
                   style={{
@@ -147,16 +173,14 @@ const MovieModal = () => {
                 >
                   {Math.floor(data?.vote_average as number)}
                 </b>
-              </MovieRating>
+              </div>
               <div>
                 국가:
                 {data?.production_countries.map((ele, index) => (
                   <b key={index}>{ele.name}</b>
                 ))}
               </div>
-            </MovieInfo>
-            <MovieInfo className='info'>
-              <MovieDate>
+              <div>
                 {part === "movie" ? (
                   <>
                     상영시간:<b>{data?.runtime}분</b>
@@ -166,23 +190,23 @@ const MovieModal = () => {
                     Episode Runtime :<b>{data?.episode_run_time[0]}분</b>
                   </>
                 )}
-              </MovieDate>
-              <MovieGenre>
+              </div>
+              <div>
                 장르:
                 {data?.genres.map((ele, index) => (
                   <b key={index}>{ele.name}</b>
                 ))}
-              </MovieGenre>
-            </MovieInfo>
-            <MovieText className='overview'>
-              <b style={{ display: "inline-block", marginBottom: "10px" }}>{data?.tagline}</b>
+              </div>
+            </DetailInfo>
+            <DetailText className='overview'>
+              {data?.tagline !== "" ? <b style={{ display: "inline-block", marginBottom: "10px" }}>{data?.tagline}</b> : null}
               <p>{data?.overview}</p>
-            </MovieText>
-          </MovieDetail>
+            </DetailText>
+          </Detail>
         </motion.div>
       )}
     </>
   );
 };
 
-export default MovieModal;
+export default DetailModal;

@@ -70,11 +70,26 @@ interface videoResult {
   name: string;
   type: string;
 }
-interface DatailProps {
-  // matchId: string | undefined | null;
-  part: string | undefined | null;
-  id: string | undefined;
+interface GetTv {
+  page: number;
+  results: TvResult[];
+  total_pages: number;
+  total_results: number;
 }
+interface TvResult {
+  backdrop_path: string;
+  first_air_date: string;
+  genre_ids: [number];
+  id: number;
+  name: string;
+  origin_country: [string];
+  original_language: string;
+  original_name: string;
+  overview: string;
+  poster_path: string;
+  vote_average: number;
+}
+
 export function getMoive() {
   return fetch(`${BASE_PATH}/movie/now_playing?api_key=${API_KEY}&language=ko-KR&region=kr&page=1`).then(ele => ele.json());
 }
@@ -105,26 +120,6 @@ export function getTvOnAir(): Promise<GetTv> {
 export function getTvToday(): Promise<GetTv> {
   return fetch(`${BASE_PATH}/tv/airing_today?api_key=${API_KEY}&language=ko-KR&region=kr&page=1`).then(ele => ele.json());
 }
-interface GetTv {
-  page: number;
-  results: TvResult[];
-  total_pages: number;
-  total_results: number;
-}
-interface TvResult {
-  backdrop_path: string;
-  first_air_date: string;
-  genre_ids: [number];
-  id: number;
-  name: string;
-  origin_country: [string];
-  original_language: string;
-  original_name: string;
-  overview: string;
-  poster_path: string;
-  vote_average: number;
-}
-
 export function searchInfo(keyword: string | null): Promise<SearchResult> {
   return fetch(`${BASE_PATH}/search/multi?api_key=${API_KEY}&language=ko&query=${keyword}&page=1`).then(ele => ele.json());
 }

@@ -3,11 +3,8 @@ import Home from "./Routes/Home";
 import Tv from "./Routes/Tv";
 import Search from "./Routes/Search";
 import Header from "./Components/Header";
-import { useRecoilValue } from "recoil";
-import { searchId } from "./atom";
 
 function App() {
-  const keyword = useRecoilValue(searchId);
   return (
     <BrowserRouter basename={process.env.PUBLIC_URL}>
       <Header />

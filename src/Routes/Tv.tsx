@@ -4,7 +4,7 @@ import { getTvTopRated, getTvPopular, getTvOnAir, getTvToday } from "./../api";
 import { makeImagePath } from "../utils";
 import Loader from "../Components/Loader";
 import Slider from "../Components/Slider";
-import MovieModal from "../Components/MovieModal";
+import MovieModal from "../Components/DetailModal";
 import { useParams } from "react-router-dom";
 const Container = styled.div`
   background-color: #000;

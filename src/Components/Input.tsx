@@ -10,34 +10,60 @@ import { useEffect } from "react";
 interface Iform {
   keyword: string;
 }
+const Container = styled(motion.div)``;
 const Overlay = styled(motion.div)`
   position: fixed;
-  left: 250px;
   top: 0;
   width: 100%;
   height: 100%;
   z-index: 99999;
   background-color: rgba(0, 0, 0, 0.5);
+  @media ${props => props.theme.desktop} {
+    left: 250px;
+  }
+  @media ${props => props.theme.tablet} {
+    left: 0;
+  }
+  @media ${props => props.theme.mobile} {
+    left: 0;
+  }
 `;
 const Modal = styled(motion.div)`
-  position: fixed;
   background-color: ${props => props.theme.black.darker};
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  width: 500px;
-  height: 350px;
+  position: fixed;
   z-index: 99999;
   padding: 0 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
   h3 {
-    font-size: 24px;
     margin: 60px 0;
   }
   form {
     width: 100%;
+  }
+  @media ${props => props.theme.desktop} {
+    width: 500px;
+    height: 350px;
+    h3 {
+      font-size: 1.5rem;
+      margin: 60px 0;
+    }
+  }
+  @media ${props => props.theme.tablet} {
+    width: 500px;
+    height: 350px;
+
+    h3 {
+      font-size: 1.25rem;
+    }
+  }
+  @media ${props => props.theme.mobile} {
+    width: 80%;
+    height: 250px;
+    h3 {
+      font-size: 1.125rem;
+    }
   }
 `;
 const Input = styled(motion.input)`
@@ -57,19 +83,19 @@ const Close = styled.div`
   right: 15px;
   font-size: 24px;
 `;
-const container = {
-  hidden: { opacity: 0, x: -100 },
+const showParents = {
+  hidden: { opacity: 0 },
   show: {
     opacity: 1,
-    x: 0,
     transition: {
-      staggerChildren: 0.5,
+      staggerChildren: 0.3,
     },
   },
 };
-const item = {
-  hidden: { opacity: 0 },
-  show: { opacity: 1 },
+const showChild = {
+  hidden: { opacity: 0, y: "0%", x: "-50%", top: "50%", left: "50%" },
+  show: { opacity: 1, y: "-50%" },
+  exit: { opacity: 0, y: "-100%" },
 };
 function SearchInput() {
   const navigate = useNavigate();
@@ -85,19 +111,20 @@ function SearchInput() {
   useEffect(() => {
     setFocus("keyword");
   }, [setFocus]);
+
   return (
-    <motion.div variants={container} initial='hidden' animate='show'>
-      <Overlay onClick={onClose} variants={item} />
-      <Modal variants={item}>
+    <Container variants={showParents} initial='hidden' animate='show'>
+      <Overlay onClick={onClose} variants={showChild} />
+      <Modal variants={showChild}>
         <Close onClick={onClose}>
           <FaWindowClose />
         </Close>
-        <h3>영화 혹은 드라마 검색</h3>
+        <h3>영화 혹은 TV 검색</h3>
         <form onSubmit={handleSubmit(onVaild)}>
           <Input {...register("keyword", { required: true, minLength: 2 })} placeholder='검색' />
         </form>
       </Modal>
-    </motion.div>
+    </Container>
   );
 }
 

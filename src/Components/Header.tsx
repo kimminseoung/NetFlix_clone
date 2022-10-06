@@ -1,8 +1,8 @@
 import styled from "styled-components";
 import { motion } from "framer-motion";
 import { Link, useMatch } from "react-router-dom";
-import { useRecoilState } from "recoil";
-import { openSearchModal } from "../atom";
+import { useRecoilState,  useSetRecoilState } from "recoil";
+import { openSearchModal, overFlow } from "../atom";
 import SearchInput from "./Input";
 
 const Nav = styled(motion.nav)`
@@ -13,9 +13,7 @@ const Nav = styled(motion.nav)`
   height: 100%;
   top: 0;
   left: 0;
-  font-size: 0.875rem;
   z-index: 111111;
-  box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
   color: ${props => props.theme.white.lighter};
   background-color: ${props => props.theme.black.darker};
   @media ${props => props.theme.desktop} {
@@ -23,7 +21,7 @@ const Nav = styled(motion.nav)`
   }
   @media ${props => props.theme.tablet} {
     width: 100%;
-    height: 80px;
+    height: 60px;
     padding-top: 0;
     flex-direction: row;
     justify-content: space-between;
@@ -32,7 +30,7 @@ const Nav = styled(motion.nav)`
   }
   @media ${props => props.theme.mobile} {
     width: 100%;
-    height: 80px;
+    height: 60px;
     padding-top: 0;
     flex-direction: row;
     justify-content: space-between;
@@ -66,10 +64,6 @@ const Items = styled.ul`
     flex-direction: column;
     align-items: center;
   }
-  @media ${props => props.theme.tablet} {
-  }
-  @media ${props => props.theme.mobile} {
-  }
 `;
 const Item = styled.li`
   color: ${props => props.theme.white.darker};
@@ -77,19 +71,26 @@ const Item = styled.li`
   display: flex;
   justify-content: center;
   flex-direction: column;
+  cursor: pointer;
+  &:last-child {
+    margin-right: 0;
+  }
   &:hover {
     color: ${props => props.theme.white.lighter};
   }
   @media ${props => props.theme.desktop} {
     margin-bottom: 20px;
+    font-size: 1.125rem;
   }
   @media ${props => props.theme.tablet} {
     margin-right: 15px;
     align-items: center;
+    font-size: 1rem;
   }
   @media ${props => props.theme.mobile} {
     margin-right: 15px;
     align-items: center;
+    font-size: 0.875rem;
   }
 `;
 const Circle = styled(motion.span)`
@@ -100,16 +101,14 @@ const Circle = styled(motion.span)`
   background-color: ${props => props.theme.red};
   @media ${props => props.theme.desktop} {
     top: 45%;
-    right: 0;
     left: -20%;
   }
   @media ${props => props.theme.tablet} {
-    bottom: -10px;
+    bottom: -6px;
     left: 50%;
-    right: 0;
   }
   @media ${props => props.theme.mobile} {
-    bottom: -10px;
+    bottom: -6px;
     left: 50%;
   }
 `;
@@ -135,7 +134,6 @@ const Search = styled.form`
     }
   }
 `;
-
 const logoVarient = {
   noActive: {
     fillOpacity: 1,
@@ -151,9 +149,11 @@ const logoVarient = {
 function Header() {
   const home = useMatch("/");
   const tv = useMatch("tv");
+  const overflow = useSetRecoilState(overFlow);
   const [searchOpen, setSearchOpen] = useRecoilState(openSearchModal);
   const openSearch = () => {
     setSearchOpen(prev => !prev);
+    overflow(prev => !prev);
   };
 
   return (

@@ -5,8 +5,9 @@ declare module "styled-components" {
     red: string;
     blue: string;
     mobile?: string;
-    tablet?:string;
+    tablet?: string;
     desktop?: string;
+    bigdesktop?: string;
     black: {
       veryDark: string;
       darker: string;

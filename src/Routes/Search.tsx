@@ -5,9 +5,10 @@ import styled from "styled-components";
 import { searchInfo } from "../api";
 import Loader from "../Components/Loader";
 import { makeImagePath } from "./../utils";
-import { useSetRecoilState } from "recoil";
-import { searchId } from "../atom";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { overFlow, searchId } from "../atom";
 import SearchModal from "../Components/SearchModal";
+
 const Container = styled.div`
   h3 {
     text-align: center;
@@ -17,69 +18,80 @@ const Container = styled.div`
   @media ${props => props.theme.desktop} {
     padding-left: 250px;
     h3 {
+      margin-top: 30px;
       font-size: 1.5rem;
     }
   }
   @media ${props => props.theme.tablet} {
     h3 {
       font-size: 1.2rem;
-      margin-top: 100px;
+      margin-top: 60px;
     }
     padding-left: 0;
   }
   @media ${props => props.theme.mobile} {
-    padding-left: 0;
     h3 {
-      margin-top: 100px;
-      font-size: 0.9rem;
+      font-size: 1rem;
+      margin-top: 60px;
     }
+    padding-left: 0;
   }
 `;
-
 const Wrapper = styled.div`
   display: grid;
-  padding: 20px 40px;
-  gap: 15px;
   @media ${props => props.theme.desktop} {
     grid-template-columns: repeat(5, 1fr);
+    padding: 20px 30px;
+    gap: 15px;
   }
   @media ${props => props.theme.tablet} {
     grid-template-columns: repeat(4, 1fr);
+    padding: 10px 20px;
+    gap: 10px;
   }
   @media ${props => props.theme.mobile} {
     grid-template-columns: repeat(3, 1fr);
+    padding: 10px;
+    gap: 10px;
   }
 `;
-
 const Items = styled(motion.div)<{ bgphoto: string }>`
-  height: 300px;
   cursor: pointer;
   position: relative;
   background-image: linear-gradient(to top, black, transparent), url(${props => props.bgphoto});
   background-position: center center;
   background-repeat: no-repeat;
+  background-size: cover;
   h2 {
     position: absolute;
     bottom: 25px;
     left: 15px;
   }
   @media ${props => props.theme.desktop} {
-    background-size: contain;
+    font-size: 16px;
+    height: 250px;
   }
   @media ${props => props.theme.tablet} {
-    background-size: contain;
+    height: 200px;
+    font-size: 16px;
   }
   @media ${props => props.theme.mobile} {
-    background-size: contain;
+    height: 200px;
+    font-size: 16px;
   }
 `;
 function Search() {
   const setId = useSetRecoilState(searchId);
+  const bodyOverflow = useRecoilValue(overFlow);
+  if (bodyOverflow) {
+    document.body.style.overflow = "hidden";
+  } else {
+    document.body.style.overflow = "visible";
+  }
   const [searchParams, setSearchParams] = useSearchParams();
   const word = searchParams.get("keyword");
   const id = searchParams.get("id");
   const { isLoading, data } = useQuery(["search", word], () => searchInfo(word));
-  console.log(data);
   const navigate = useNavigate();
   const onBoxClick = (id: number, word: string, media: string) => {
     navigate(`/search?keyword=${word}&type=${media}&id=${id}`);

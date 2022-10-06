@@ -6,20 +6,39 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper";
 import "swiper/css";
 import "swiper/css/navigation";
+import { useSetRecoilState } from "recoil";
+import { overFlow } from "../atom";
 const Wrapper = styled.div`
   width: 100%;
   padding: 15px;
   margin-bottom: 20px;
+  @media ${props => props.theme.desktop} {
+  }
+  @media ${props => props.theme.tablet} {
+  }
+  @media ${props => props.theme.mobile} {
+    padding: 12px;
+    margin-bottom: 17px;
+  }
 `;
+
 const Box = styled(motion.div)<{ bgphoto: string }>`
-  background-color: red;
-  border-radius: 15px;
-  height: 350px;
   cursor: pointer;
+  background-color: transparent;
   background-image: url(${props => props.bgphoto});
-  background-size: cover;
   background-repeat: no-repeat;
   background-position: center center;
+  border-radius: 0.938rem;
+  background-size: cover;
+  @media ${props => props.theme.desktop} {
+    height: 400px;
+  }
+  @media ${props => props.theme.tablet} {
+    height: 350px;
+  }
+  @media ${props => props.theme.mobile} {
+    height: 200px;
+  }
 `;
 const Info = styled(motion.div)`
   padding: 20px;
@@ -31,12 +50,36 @@ const Info = styled(motion.div)`
   border-radius: 0 0 10px 10px;
   h4 {
     text-align: center;
-    font-size: 12px;
+  }
+  @media ${props => props.theme.desktop} {
+    h4 {
+      font-size: 18px;
+    }
+  }
+  @media ${props => props.theme.tablet} {
+    h4 {
+      font-size: 16px;
+    }
+  }
+  @media ${props => props.theme.mobile} {
+    h4 {
+      font-size: 14px;
+    }
   }
 `;
 const SliderTitle = styled.h3`
-  font-size: 24px;
-  padding-bottom: 20px;
+  @media ${props => props.theme.desktop} {
+    padding-bottom: 20px;
+    font-size: 24px;
+  }
+  @media ${props => props.theme.tablet} {
+    padding-bottom: 20px;
+    font-size: 20px;
+  }
+  @media ${props => props.theme.mobile} {
+    font-size: 16px;
+    padding-bottom: 12px;
+  }
 `;
 const InfoVarient = {
   hover: {
@@ -46,7 +89,7 @@ const InfoVarient = {
       type: "tween",
     },
   },
-}; 
+};
 interface SliderProp {
   movie: any[];
   title: string;
@@ -54,13 +97,37 @@ interface SliderProp {
 }
 const Slider = ({ movie, title, part }: SliderProp) => {
   const navigate = useNavigate();
+  const overflow = useSetRecoilState(overFlow);
   const onBoxClick = (movieId: number, part: string) => {
     navigate(`/${part}/${movieId}`);
+    overflow(true);
   };
   return (
     <Wrapper>
       <SliderTitle>{title}</SliderTitle>
-      <Swiper className='swiper' navigation={true} modules={[Navigation]} slidesPerView={6} spaceBetween={10}>
+      <Swiper
+        breakpoints={{
+          100: {
+            slidesPerView: 3,
+            spaceBetween: 10,
+          },
+          640: {
+            slidesPerView: 4,
+            spaceBetween: 10,
+          },
+          768: {
+            slidesPerView: 4,
+            spaceBetween: 20,
+          },
+          1024: {
+            slidesPerView: 5,
+            spaceBetween: 30,
+          },
+        }}
+        className='swiper'
+        navigation={true}
+        modules={[Navigation]}
+      >
         {movie.map((movie, index) => (
           <SwiperSlide key={movie.id}>
             <Box key={index} onClick={() => onBoxClick(movie.id, part)} variants={InfoVarient} transition={{ type: "tween" }} whileHover='hover' bgphoto={makeImagePath(movie.poster_path, "w500")}>

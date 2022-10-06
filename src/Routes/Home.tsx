@@ -4,8 +4,10 @@ import { getMoive, getMoivePopular, getMoiveUpcoming, getMoiveTopRated } from ".
 import { makeImagePath } from "../utils";
 import Loader from "../Components/Loader";
 import Slider from "../Components/Slider";
-import MovieModal from "../Components/DetailModal";
+import DetailModal from "../Components/DetailModal";
 import { useParams } from "react-router-dom";
+import { useRecoilValue } from "recoil";
+import { overFlow } from "../atom";
 const Container = styled.div`
   background-color: #000;
   @media ${props => props.theme.desktop} {
@@ -19,7 +21,6 @@ const Container = styled.div`
   }
 `;
 const Banner = styled.div<{ bgphoto: string }>`
-  height: 70vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -29,11 +30,15 @@ const Banner = styled.div<{ bgphoto: string }>`
   background-size: cover;
   background-position: center center;
   @media ${props => props.theme.desktop} {
+    height: 70vh;
   }
   @media ${props => props.theme.tablet} {
-    background-size: cover;
+    height: 60vh;
+    margin-top: 30px;
   }
   @media ${props => props.theme.mobile} {
+    height: 55vh;
+    margin-top: 60px;
     padding: 30px;
   }
 `;
@@ -43,30 +48,35 @@ const Title = styled.h2`
     font-size: 2.25rem;
   }
   @media ${props => props.theme.tablet} {
-    font-size: 2rem;
+    font-size: 2.25rem;
   }
   @media ${props => props.theme.mobile} {
-    font-size: 1.5rem;
+    font-size: 2.25rem;
   }
 `;
 const OverView = styled.p`
   line-height: 1.5;
-  font-size: 1rem;
-
   @media ${props => props.theme.desktop} {
-    font-size: 1.1rem;
     width: 50%;
+    font-size: 1.3rem;
   }
   @media ${props => props.theme.tablet} {
     width: 50%;
+    font-size: 1.2rem;
   }
   @media ${props => props.theme.mobile} {
-    font-size: 0.7rem;
     width: 70%;
+    font-size: 1rem;
   }
 `;
 
 function Home() {
+  const bodyOverflow = useRecoilValue(overFlow);
+  if (bodyOverflow) {
+    document.body.style.overflow = "hidden";
+  } else {
+    document.body.style.overflow = "visible";
+  }
   const match = useParams();
   const matchId = match.id;
   const { isLoading: nowPlayingLoading, data: nowPlaying } = useQuery(["nowPlaying"], getMoive);
@@ -88,7 +98,7 @@ function Home() {
           <Slider title='최신 인기 작품' movie={popular?.results ?? []} part='movie' />
           <Slider title='국내 개봉 예정' movie={upcoming?.results ?? []} part='movie' />
           <Slider title='명작' movie={toprated?.results ?? []} part='movie' />
-          {matchId && <MovieModal />}
+          {matchId && <DetailModal />}
         </>
       )}
     </Container>

@@ -59,9 +59,7 @@ html{
   font-size:16px;
 }
 body {
-  font-weight: 300;
   color:${props => props.theme.white.darker};
-  line-height: 1.2;
   background-color: black;
 }
 a {

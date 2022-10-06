@@ -1,5 +1,10 @@
 import { atom } from "recoil";
 
+export const overFlow = atom({
+  key: "overflow",
+  default: false,
+});
+
 export const openSearchModal = atom({
   key: "textState",
   default: false,

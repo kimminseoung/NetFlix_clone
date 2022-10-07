@@ -8,6 +8,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import { useSetRecoilState } from "recoil";
 import { overFlow } from "../atom";
+import { ResultArray  } from "../api";
 const Wrapper = styled.div`
   width: 100%;
   padding: 15px;
@@ -91,7 +92,7 @@ const InfoVarient = {
   },
 };
 interface SliderProp {
-  movie: any[];
+  movie: ResultArray[];
   title: string;
   part: string;
 }
@@ -102,6 +103,7 @@ const Slider = ({ movie, title, part }: SliderProp) => {
     navigate(`/${part}/${movieId}`);
     overflow(true);
   };
+  console.log(movie);
   return (
     <Wrapper>
       <SliderTitle>{title}</SliderTitle>

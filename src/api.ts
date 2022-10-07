@@ -1,25 +1,24 @@
 const API_KEY = "398e1a63069b2e5454b3bb55b99f1816";
 const BASE_PATH = `https://api.themoviedb.org/3`;
-interface Movie {
+
+export interface GetResult {
+  page: number;
+  results: ResultArray[];
+}
+export interface ResultArray {
   id: number;
   backdrop_path: string;
+  name?: string;
+  origin_country: [string];
   original_language: string;
+  original_name: string;
   overview: string;
   poster_path: string;
-  title: string;
-  genre_ids: string[];
   vote_average: number;
+  title?: string;
+  genre_ids: [number];
 }
-interface GetMoiveResult {
-  data: {
-    maximum: string;
-    minimum: string;
-  };
-  page: number;
-  total_pages: number;
-  total_results: number;
-  results: Movie[];
-}
+
 interface SearchResult {
   page: number;
   total_pages: number;
@@ -70,54 +69,35 @@ interface videoResult {
   name: string;
   type: string;
 }
-interface GetTv {
-  page: number;
-  results: TvResult[];
-  total_pages: number;
-  total_results: number;
-}
-interface TvResult {
-  backdrop_path: string;
-  first_air_date: string;
-  genre_ids: [number];
-  id: number;
-  name: string;
-  origin_country: [string];
-  original_language: string;
-  original_name: string;
-  overview: string;
-  poster_path: string;
-  vote_average: number;
-}
 
-export function getMoive() {
+export function getMoive(): Promise<GetResult> {
   return fetch(`${BASE_PATH}/movie/now_playing?api_key=${API_KEY}&language=ko-KR&region=kr&page=1`).then(ele => ele.json());
 }
 export function getMoiveVideo(id: string | undefined | null, part?: string | undefined | null): Promise<VideoProp> {
   return fetch(`${BASE_PATH}/${part}/${id}/videos?api_key=${API_KEY}&language=ko-KR`).then(ele => ele.json());
 }
-export function getMoivePopular(): Promise<GetMoiveResult> {
+export function getMoivePopular(): Promise<GetResult> {
   return fetch(`${BASE_PATH}/movie/popular?api_key=${API_KEY}&language=ko-KR&region=kr&page=1`).then(ele => ele.json());
 }
-export function getMoiveUpcoming(): Promise<GetMoiveResult> {
+export function getMoiveUpcoming(): Promise<GetResult> {
   return fetch(`${BASE_PATH}/movie/upcoming?api_key=${API_KEY}&language=ko-KR&region=kr&page=1`).then(ele => ele.json());
 }
-export function getMoiveTopRated(): Promise<GetMoiveResult> {
+export function getMoiveTopRated(): Promise<GetResult> {
   return fetch(`${BASE_PATH}/movie/top_rated?api_key=${API_KEY}&language=ko-KR&region=kr&page=1`).then(ele => ele.json());
 }
 export function getMoiveDetail(id: string | undefined | null, part: string | undefined | null): Promise<MovieDeatils> {
   return fetch(`${BASE_PATH}/${part}/${id}?api_key=${API_KEY}&language=ko-KR`).then(ele => ele.json());
 }
-export function getTvTopRated(): Promise<GetTv> {
+export function getTvTopRated(): Promise<GetResult> {
   return fetch(`${BASE_PATH}/tv/top_rated?api_key=${API_KEY}&language=ko-KR&region=kr&page=1`).then(ele => ele.json());
 }
-export function getTvPopular(): Promise<GetTv> {
+export function getTvPopular(): Promise<GetResult> {
   return fetch(`${BASE_PATH}/tv/popular?api_key=${API_KEY}&language=ko-KR&region=kr&page=1`).then(ele => ele.json());
 }
-export function getTvOnAir(): Promise<GetTv> {
+export function getTvOnAir(): Promise<GetResult> {
   return fetch(`${BASE_PATH}/tv/on_the_air?api_key=${API_KEY}&language=ko-KR&region=kr&page=1`).then(ele => ele.json());
 }
-export function getTvToday(): Promise<GetTv> {
+export function getTvToday(): Promise<GetResult> {
   return fetch(`${BASE_PATH}/tv/airing_today?api_key=${API_KEY}&language=ko-KR&region=kr&page=1`).then(ele => ele.json());
 }
 export function searchInfo(keyword: string | null): Promise<SearchResult> {

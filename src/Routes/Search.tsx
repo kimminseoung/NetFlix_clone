@@ -77,7 +77,7 @@ const Items = styled(motion.div)<{ bgphoto: string }>`
   }
   @media ${props => props.theme.mobile} {
     height: 200px;
-    font-size: 16px;
+    font-size: 13px;
   }
 `;
 function Search() {

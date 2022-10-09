@@ -13,10 +13,6 @@ const Wrapper = styled.div`
   width: 100%;
   padding: 15px;
   margin-bottom: 20px;
-  @media ${props => props.theme.desktop} {
-  }
-  @media ${props => props.theme.tablet} {
-  }
   @media ${props => props.theme.mobile} {
     padding: 12px;
     margin-bottom: 17px;

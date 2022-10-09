@@ -18,7 +18,6 @@ export interface ResultArray {
   title?: string;
   genre_ids: [number];
 }
-
 interface SearchResult {
   page: number;
   total_pages: number;

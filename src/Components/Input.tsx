@@ -10,7 +10,6 @@ import { BiSearchAlt } from "react-icons/bi";
 interface Iform {
   keyword: string;
 }
-const Container = styled(motion.div)``;
 const Overlay = styled(motion.div)`
   position: fixed;
   top: 0;
@@ -156,7 +155,7 @@ function Input() {
         show: { opacity: 1, y: "-50%", x: "-50%", top: "50%", left: "50%" },
       };
   return (
-    <Container variants={showParents} initial='hidden' animate='show'>
+    <motion.div variants={showParents} initial='hidden' animate='show'>
       <Overlay onClick={onClose} />
       <Modal variants={showChild} initial='hidden' animate='show'>
         <Close onClick={onClose}>
@@ -170,7 +169,7 @@ function Input() {
           </button>
         </form>
       </Modal>
-    </Container>
+    </motion.div>
   );
 }
 
